@@ -1,4 +1,5 @@
-class API_lista  {
+import {reactLocalStorage} from 'reactjs-localstorage'
+class API  {
     constructor() {
         this.API_URL = 'http://localhost:3000/'
     }
@@ -10,6 +11,17 @@ class API_lista  {
                 
                     return response.json()
             })
+    }
+
+    obtenerPerfil() {
+        return fetch(this.API_URL+"users/"+reactLocalStorage.get('idUser'), {
+            headers: {
+                'Authorization': reactLocalStorage.get('token')
+            },
+        })
+        .then(function(response) {
+                return response.json()
+        })
     }
 
     obtenerJuego(id) {
@@ -33,4 +45,4 @@ class API_lista  {
     }
 }
 
-export default API_lista
+export default API

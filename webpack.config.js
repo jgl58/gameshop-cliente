@@ -1,5 +1,6 @@
 var path = require('path');
 var dir_js = path.resolve(__dirname, 'js')
+var dir_css = path.resolve(__dirname, 'css')
 module.exports = {
     //archivo "inicial" por el que se empieza a ver las dependencias
     entry: path.resolve(dir_js,'main.js'),
@@ -11,6 +12,14 @@ module.exports = {
     module: {
         //"filtros" por los que pasa el código antes de generar el bundle
         loaders: [
+            {
+                test: dir_css,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                    
+                ]
+            },
             { 
                 test: dir_js,
                 loader: 'babel-loader',
