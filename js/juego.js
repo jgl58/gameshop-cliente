@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'  
 import API from './API/API'
+import '../css/juego.css'
 import {reactLocalStorage} from 'reactjs-localstorage'
 
 
@@ -13,6 +14,7 @@ class Juego extends React.Component {
         comentarios: [],
         nuevoComentario: ''
       }
+      this.comprar = this.comprar.bind(this)
       this.comentar = this.comentar.bind(this)
       this.refresh = this.refresh.bind(this)
     }
@@ -49,6 +51,26 @@ class Juego extends React.Component {
             }     
         }) 
     }
+
+    comprar(event){
+      var token = reactLocalStorage.get('token')
+      fetch('http://localhost:3000/games/'+this.props.id+'/orders', {
+            method: 'POST',
+            headers: {
+                'Content-type':'application/json',
+                'Authorization': token
+            }
+        })
+        .then((response) => {
+            if(response.ok){
+              //return response.json()
+              this.props.loadCarrito() 
+            }else{
+                alert('Datos incorrectos')
+            }     
+        })
+    }
+
     refresh(){
       new API().obtenerJuego(this.props.id)
       .then((data) => {
@@ -57,7 +79,6 @@ class Juego extends React.Component {
     }
 
     render () {
-    
       var prods = []
         for (var i=0; i<this.state.comentarios.length; i++) {
             var actual = this.state.comentarios[i]
@@ -67,84 +88,118 @@ class Juego extends React.Component {
             prods.push(elemento)
         }
     if(reactLocalStorage.get('token')){
-        return <div className="container-fluid">
-          <div className="content-wrapper">	
-          <div className="item-container">	
-            <div className="container">	
-              <div className="col-md-12">
-                <div className="container service1-items col-sm-2 col-md-2 pull-left">
-                  <center>
-                    <a id="item-1" className="service1-item">
-                      <img width="275" height="250" src={this.state.juego.url} alt=""></img>
-                    </a>
-                  </center>
-                </div>
+              return <div> 
+              <div class="container">
+                  <div class="card">
+                      <div class="container-fliud">
+                          <div class="wrapper row">
+                              <div class="preview col-md-6 col-lg-8 col-xs-12">
 
+                                  <div class="preview-pic tab-content">
+                                      <div class="tab-pane active" id="pic-1"><img src={this.state.juego.url}/></div>
+                                  </div>
+
+                              </div>
+                              <div class="details col-md-6 col-lg-8 col-xs-12">
+                                  <div class="panel panel-default text-center">
+                                      <h3><div class="panel-title">   Juego</div></h3>
+                                      <hr/>
+                                  <h4>{this.state.juego.title}</h4>
+                                  </div>
+                                  <div class="panel panel-default text-center">
+                                  <div class="rating">
+                                      <h3><div class="panel-title">  Categoria</div></h3>
+                                      <hr/>
+                                      <h4>{this.state.juego.type}</h4>
+                                  </div>
+                                  </div>
+                                  <div class="panel panel-default text-center">
+                                      <h3><div class="panel-title">  Precio</div></h3>
+                                      <hr/>
+                                      <h2><font color="green">{this.state.juego.price} €</font></h2>                 
+                                  </div>
+            
+                                  <div class="text-center">
+                                      <button class="btn btn-default" onClick={this.comprar}  type="button"><span class="glyphicon glyphicon-shopping-cart"></span>Añadir al carrito</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
               </div>
-              <div className="col-md-7">
-                <div className="product-title">{this.state.juego.title}</div>
-                <hr></hr>
-                <div className="product-price">{this.state.juego.price} €</div>
-                <hr></hr>
-                <div className="btn-group cart">
-                  <button type="button" className="btn btn-success">
-                    Comprar 
-                  </button>
-                </div>
+
+              <div id="comentarios" className="container">
+                <div className="row">
+                  <div class="panel panel-default widget">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-comment"></span>
+                        <h3 class="panel-title">
+                            Comentarios</h3><br/>
+                            <div className="row">
+                            <textarea className="form-control" onChange={(event) => this.setState({nuevoComentario: event.target.value})} placeholder="Escribe el contenido..."></textarea><br/>
+                            <button className="btn btn-primary pull-right" onClick={this.comentar}>Enviar</button>
+                            </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                          {prods}
+                        </ul>
+                    </div>
+                  </div>
+                </div>   
               </div>
-            </div> 
-          </div>
-
-          <div className="container">
-            <div className="row">
-              <h2>Comentarios <div className="pull-right"> </div></h2>
             </div>
-            <div className="row" id="addcomment">
-                    <textarea className="form-control" onChange={(event) => this.setState({nuevoComentario: event.target.value})} placeholder="Escribe el contenido..."></textarea><br/>
-                    <button className="btn btn-primary pull-right" onClick={this.comentar}>Enviar</button>
-            </div>
-            <hr/>
-            {prods}
-        </div>
-        </div>
-      </div>
-
       }else{
-        return <div className="container-fluid">
-          <div className="content-wrapper">	
-          <div className="item-container">	
-            <div className="container">	
-              <div className="col-md-12">
-                <div className="container service1-items col-sm-2 col-md-2 pull-left">
-                  <center>
-                    <a id="item-1" className="service1-item">
-                      <img width="275" height="250" src={this.state.juego.url} alt=""></img>
-                    </a>
-                  </center>
-                </div>
+            return <div> 
+              <div class="container">
+                  <div class="card">
+                      <div class="container-fliud">
+                          <div class="wrapper row">
+                              <div class="preview col-md-6 col-lg-8 col-xs-12">
 
-              </div>
-              <div className="col-md-7">
-                <div className="product-title">{this.state.juego.title}</div>
-                <hr></hr>
-                <div className="product-price">{this.state.juego.price} €</div>
-                <hr></hr>
-                <div className="btn-group cart">
-                  <p>Para comprar necesitas estar logueado</p>
-                </div>
-              </div>
-            </div> 
-          </div>
+                                  <div class="preview-pic tab-content">
+                                      <div class="tab-pane active" id="pic-1"><img src={this.state.juego.url}/></div>
+                                  </div>
 
-          <div className="container">
-            <div className="row">
-              <h2>Comentarios <div className="pull-right"> </div></h2>
+                              </div>
+                              <div class="details col-md-6 col-lg-8 col-xs-12">
+                                  <div class="panel panel-default text-center">
+                                      <h3><div class="panel-title">   Juego</div></h3>
+                                      <hr/>
+                                  <h4>{this.state.juego.title}</h4>
+                                  </div>
+                                  <div class="panel panel-default text-center">
+                                  <div class="rating">
+                                      <h3><div class="panel-title">  Categoria</div></h3>
+                                      <hr/>
+                                      <h4>{this.state.juego.type}</h4>
+                                  </div>
+                                  </div>
+                                  <div class="panel panel-default text-center">
+                                      <h3><div class="panel-title">  Precio</div></h3>
+                                      <hr/>
+                                      <h2><font color="green">{this.state.juego.price} €</font></h2>                 
+                                  </div>
+            
+                                  <div class="text-center">
+                                      Necesitas estar logueado para comprar    
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div id="comentarios" className="container">
+                <div className="row">
+                  <h2>Comentarios <div className="pull-right"> </div></h2>
+                </div>
+                <div className="row" id="addcomment">Necesitas estar logueado para escribir un comentario</div>
+                <hr/>
+                {prods}
+              </div>
+
             </div>
-            <hr/>
-            {prods}
-        </div>
-        </div>
-      </div>
+
       }
       
         
@@ -165,23 +220,49 @@ class ComentarioItem extends React.Component {
       var idborrar = "#mi-modal"+this.props.comentario.comments_id
       //console.log(this.props.comentario)
       if(this.props.comentario.nick == reactLocalStorage.get('nick')){
-          return <div className="row comment">
-          <div className="head">
-              <small><strong className='user'>{this.props.comentario.nick}</strong></small>
-          </div>    
-          <p>{this.props.comentario.message}</p>
-          <div><button className="btn btn-warning pull-right" data-toggle="modal" data-target={id}>Editar</button>
-          <button className="btn btn-danger pull-right" data-toggle="modal" data-target={idborrar}>Eliminar</button></div>
-          <ModalEditar editado={this.refresh} comentario={this.props.comentario}/>
-          <ModalBorrar borrado={this.refresh} comentario={this.props.comentario}/>
-          </div>
+        return <li class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-2 col-md-1">
+                        <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
+                    <div class="col-xs-10 col-md-11">
+                        <div>
+                                Por: {this.props.comentario.nick}
+                        </div>
+                        <div class="comment-text">
+                            {this.props.comentario.message}
+                        </div>
+                        <div class="action pull-right">
+                            <button  data-toggle="modal" data-target={id}type="button" class="btn btn-primary btn-xs" title="Editar">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>&nbsp;&nbsp;&nbsp;
+                            <button data-toggle="modal" data-target={idborrar} type="button" class="btn btn-danger btn-xs" title="Borrar">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                            <ModalEditar editado={this.refresh} comentario={this.props.comentario}/>
+                            <ModalBorrar borrado={this.refresh} comentario={this.props.comentario}/>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
       }else{
-          return <div className="row comment">
-          <div className="head">
-              <small><strong className='user'>{this.props.comentario.nick}</strong></small>
-          </div>    
-          <p>{this.props.comentario.message}</p>
+        return <li class="list-group-item">
+          <div class="row">
+              <div class="col-xs-2 col-md-1">
+                  <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
+              <div class="col-xs-10 col-md-11">
+                  <div>
+                          Por: {this.props.comentario.nick}
+                  </div>
+                  <div class="comment-text">
+                      {this.props.comentario.message}
+                  </div>
+                  <div class="action">
+                  </div>
+              </div>
           </div>
+      </li>
+
       }
 
 
@@ -229,7 +310,7 @@ class ModalEditar extends React.Component {
             <h4 className="modal-title" id="myModalLabel"><i className="fa fa-share-alt"></i> Editar comentario</h4>
           </div>
           <div className="modal-body">
-            <h4><i className="fa fa-envelope"></i>Id: {this.props.comentario.comments_id} {this.props.comentario.nick}</h4>
+            <h4><i className="fa fa-envelope"></i>{this.props.comentario.nick}</h4>
             
                 <div className="input-group">
                   <textarea className="form-control" onChange={(event) => this.setState({updateComentario: event.target.value})} placeholder={this.props.comentario.message}></textarea><br/>

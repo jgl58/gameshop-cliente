@@ -24,6 +24,17 @@ class API  {
         })
     }
 
+    obtenerPedidos(){
+        return fetch(this.API_URL+"users/"+reactLocalStorage.get('idUser')+"/orders", {
+            headers: {
+                'Authorization': reactLocalStorage.get('token')
+            },
+        })
+        .then(function(response) {
+                return response.json()
+        })
+    }
+
     obtenerJuego(id) {
         return fetch(this.API_URL+"games/"+id)
             .then(function(response) {

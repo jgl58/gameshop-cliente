@@ -1,0 +1,11 @@
+#comentarios body { padding-top:30px; }
+#comentarios .widget .panel-body { padding:0px; }
+#comentarios .widget .list-group { margin-bottom: 0; }
+#comentarios .widget .panel-title { display:inline }
+#comentarios .widget .label-info { float: right; }
+#comentarios .widget li.list-group-item {border-radius: 0;border: 0;border-top: 1px solid #ddd;}
+#comentarios .widget li.list-group-item:hover { background-color: rgba(86,61,124,.1); }
+#comentarios .widget .mic-info { color: #666666;font-size: 11px; }
+#comentarios .widget .action { margin-top:5px; }
+#comentarios .widget .comment-text { font-size: 12px; }
+#comentarios .widget .btn-block { border-top-left-radius:0px;border-top-right-radius:0px; }

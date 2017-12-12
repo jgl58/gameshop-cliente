@@ -1,5 +1,6 @@
 import React from 'react'
 import {reactLocalStorage} from 'reactjs-localstorage'
+import '../css/login.css'
 
 class Login extends React.Component {
 
@@ -30,37 +31,30 @@ class Login extends React.Component {
                 reactLocalStorage.set('token',json.token)
                 reactLocalStorage.set('idUser',json._links.user_id)
                 reactLocalStorage.set('nick',this.state.nick)
-                this.props.log("catalogo")
+                this.props.log()
         })  
     }
 
     render() {
     
-        return <div className="container">
-                    <div className="row">
-                        <div className="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">  
-                                <fieldset>
-                                    <h2>Login</h2>
-                                    <hr className="colorgraph"></hr>
-                                    <div className="form-group">
-                                        <input type="text" name="email" id="email" onChange={(event) => this.setState({nick: event.target.value})} className="form-control input-lg" placeholder="Nick"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="password" name="password" id="password" onChange={(event) => this.setState({pass: event.target.value})} className="form-control input-lg" placeholder="Contraseña"/>
-                                    </div>
-                                    <hr className="colorgraph"></hr>
-                                    <div className="row">
-                                        <div className="col-xs-6 col-sm-6 col-md-6">
-                                            <button className="btn btn-lg btn-success btn-block" onClick={(event) => this.login(event)}>Iniciar Sesión</button>
-                                        </div>
-                                        <div className="col-xs-6 col-sm-6 col-md-6">
-                                            <a href="#" onClick={(event) => this.props.log('registro')} className="btn btn-lg btn-primary btn-block">Registrate</a>
-                                        </div>
-                                    </div>
-                                </fieldset>                            
-                        </div>
-                    </div>
-                </div>
+        document.getElementById("miBody").style.backgroundImage = "linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33))";
+        document.getElementById("miBody").style.height = "100%";
+
+       return  <div className="container">
+        <div className="card card-container">
+            <img id="profile-img" className="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+            <p id="profile-name" className="profile-name-card">Haz login</p>
+            
+                <span id="reauth-email" className="reauth-email"></span>
+                <input type="text" name="email" id="email" onChange={(event) => this.setState({nick: event.target.value})} className="form-control input-lg" placeholder="Nick" required autoFocus/> 
+                <br/>
+                <input type="password" name="password" id="password" onChange={(event) => this.setState({pass: event.target.value})} className="form-control input-lg" placeholder="Contraseña" required/>
+                <br/>                    
+            
+                <button className="btn btn-lg btn-success btn-block btn-signin" onClick={(event) => this.login(event)}>Iniciar Sesión</button>
+            
+        </div>
+    </div>
     }
 }
 

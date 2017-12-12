@@ -41,13 +41,11 @@ class Catalogo extends React.Component {
         </div>
 
             <div className="container">
-            <div className="layout">
-                <section className="inner">
-                    <ul className="grid">
-                        {prods}
-                    </ul>
-                </section>
-            </div> 
+                <div className="row">
+                    
+                    {prods}
+                        
+                </div> 
         </div>
     </div>
 
@@ -66,11 +64,7 @@ class CatalogoItem extends React.Component {
     acceder(event){
         this.props.handleAcceder(this.props.game.games_id)
     }
-
-    render () {
-        return <li className="grid-tile">
-                <div className="item">
-                    <div className="item-img">
+/*<div className="item-img">
                         <img width="275" height="250" src={this.props.game.url}/>
                     </div>
                     <div className="item-pnl">
@@ -81,9 +75,28 @@ class CatalogoItem extends React.Component {
                                 <button className="btn btn-primary pull-right" onClick={this.acceder}>Acceder</button>
                             </div>
                         </div>
-                    </div>
+                    </div>*/
+    render () {
+        return <div className="col-sm-12 col-md-6 col-lg-4">
+
+            <div class="card">
+                <div class="card-image">
+                    <img class="img-responsive" src={this.props.game.url}/>
+                    
                 </div>
-            </li>
+                <div class="card-content">
+                    <span class="card-title">{this.props.game.title}</span>                    
+                    
+                </div>
+                <div class="card-action">
+                    <button className="btn btn-primary pull-right" onClick={this.acceder}>Acceder</button>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title">{this.props.game.price} €</span> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    
+                </div>
+            </div>
+        </div>
     }
 }
 

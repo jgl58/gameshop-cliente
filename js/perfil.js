@@ -9,21 +9,26 @@ class Perfil extends React.Component {
         super(props)
         this.state = {user: []}
         this.editado = this.editado.bind(this)
+        this.cambiar = this.cambiar.bind(this)
     }
 
     componentWillMount(){
-        console.log(reactLocalStorage.get('idUser'))
+       // console.log(reactLocalStorage.get('idUser'))
         new API().obtenerPerfil()
         .then((data) => {
             
             this.setState({user: data.profile}) 
-            console.log(this.state.user) 
+          //  console.log(this.state.user) 
         })
     }
 
     editado(data){
         
         this.setState({user: data.profile}) 
+    }
+
+    cambiar(){
+        this.props.pedidos()
     }
 
     render(){
@@ -55,7 +60,7 @@ class Perfil extends React.Component {
                 </tbody>
               </table>
               
-              <a href="#" className="btn btn-primary">Mis juegos</a>
+              <a href="#" onClick={this.cambiar} className="btn btn-primary">Mis juegos</a>
             </div>
           </div>
         </div>
