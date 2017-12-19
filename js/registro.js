@@ -19,14 +19,7 @@ class Registro extends React.Component {
             var pet = {nick: this.state.nick, pass: this.state.pass};
             
             var json = JSON.stringify(pet)
-            console.log(json)
-            fetch('http://localhost:3000/register', {
-                method: 'POST',
-                headers: {
-                    'Content-type':'application/json'
-                },
-                body: json
-            })
+            new API().registro(json)
             .then((response) => {
                 if(response.ok){
                     this.props.log()

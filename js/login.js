@@ -1,4 +1,5 @@
 import React from 'react'
+import API from './API/API'
 import {reactLocalStorage} from 'reactjs-localstorage'
 import '../css/login.css'
 
@@ -13,13 +14,7 @@ class Login extends React.Component {
         var pet = {nick: this.state.nick, pass: this.state.pass};
         var json = JSON.stringify(pet)
         
-        fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-type':'application/json'
-            },
-            body: json
-        })
+        new API().login(json)
         .then((response) => {
             if(response.ok){
                 return response.json(); 

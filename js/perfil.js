@@ -97,14 +97,7 @@ class EditarUser extends React.Component {
         }
         var json = JSON.stringify({newData: {nick: this.props.user.nick, pass: this.props.user.pass, name: nombre, lastname: apellido}})
         
-        fetch('http://localhost:3000/users/'+reactLocalStorage.get('idUser'),{
-              method: 'PUT',
-              headers: {
-                  'Content-type':'application/json',
-                  'Authorization': token
-              },
-              body: json
-          })
+        new API().obtenerPerfil()
           .then((response) => {
               
               if(response.ok){

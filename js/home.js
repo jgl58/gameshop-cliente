@@ -7,6 +7,7 @@ import Perfil from './perfil'
 import Pedidos from './pedidos'
 //import Carrito from './carrito'
 import API from './API/API'
+import '../css/carrito.css'
 import {reactLocalStorage} from 'reactjs-localstorage'
 class Home extends React.Component{
 
@@ -241,19 +242,10 @@ class CarritoItem extends React.Component {
     }
 
     borrar(event){
-        var token = reactLocalStorage.get('token')
-        //console.log(json)
-        fetch('http://localhost:3000/users/'+this.props.pedido.users_id+'/orders/'+this.props.pedido.orders_id, {
-              method: 'DELETE',
-              headers: {
-                  'Content-type':'application/json',
-                  'Authorization': token
-              }
-          })
+        new API().borrarPedido(this.props.pedido.users_id,this.props.pedido.orders_id)
           .then((response) => {
               if(response.ok){
                 this.props.borrado()
-                  //$('#myModal').modal('hide')
               }else{
                   alert('Datos incorrectos')
               }     
@@ -276,63 +268,6 @@ class CarritoItem extends React.Component {
          
     }
 }
-
-
-/*
-class Nav extends React.Component{
-
-    constructor(props){
-        super(props)
-        this.back = this.back.bind(this)
-        this.login = this.login.bind(this)
-        this.logout = this.logout.bind(this)
-    }
-
-    back(){
-        this.props.volver('catalogo')
-    }
-
-    login(){
-        this.props.log('login');
-    }
-
-    logout(){
-        reactLocalStorage.clear()
-        this.back()
-    }
-
-    render(){
-        if(reactLocalStorage.get('token')){
-            var user = reactLocalStorage.get('nick')
-            return <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                        <a className="navbar-brand" href="#" onClick={this.back}>GameShop</a>
-                        </div>
-                        <ul className="nav navbar-nav navbar-right">
-                        <Carrito carro={this.props.carro}/>
-                        <li><a href="#" onClick={(event) => this.props.log('perfil')}><span className="glyphicon glyphicon-user"></span> Hola {user}</a></li>
-                        <li><a href="#" onClick={this.logout}><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
-                        </ul>
-                    </div>
-                    </nav>
-        }else{
-            return <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                        <a className="navbar-brand" href="#" onClick={this.back}>GameShop</a>
-                        </div>
-                        <ul className="nav navbar-nav navbar-right">
-                        <li><a href="#" onClick={(event) => this.props.log('registro')}><span className="glyphicon glyphicon-user"></span> Registrarse</a></li>
-                        <li><a href="#" onClick={this.login}><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        </ul>
-                    </div>
-                    </nav>
-
-        }
-    }
-}
-*/
 
 //Exportamos el componente. Usamos el "default"
 //porque no necesitamos exportar varias cosas separadas

@@ -31,15 +31,8 @@ class Juego extends React.Component {
     comentar(event){
       var token = reactLocalStorage.get('token')
       var json = JSON.stringify({message:this.state.nuevoComentario})
-      console.log(token)
-      fetch('http://localhost:3000/games/'+this.props.id+'/comments', {
-            method: 'POST',
-            headers: {
-                'Content-type':'application/json',
-                'Authorization': token
-            },
-            body: json
-        })
+      
+     new API().crearComentario(this.props.id,json)
         .then((response) => {
             if(response.ok){
               new API().obtenerJuego(this.props.id)
@@ -53,17 +46,9 @@ class Juego extends React.Component {
     }
 
     comprar(event){
-      var token = reactLocalStorage.get('token')
-      fetch('http://localhost:3000/games/'+this.props.id+'/orders', {
-            method: 'POST',
-            headers: {
-                'Content-type':'application/json',
-                'Authorization': token
-            }
-        })
+      new API().pagar(this.props.id)
         .then((response) => {
             if(response.ok){
-              //return response.json()
               this.props.loadCarrito() 
             }else{
                 alert('Datos incorrectos')
@@ -89,38 +74,38 @@ class Juego extends React.Component {
         }
     if(reactLocalStorage.get('token')){
               return <div> 
-              <div class="container">
-                  <div class="card">
-                      <div class="container-fliud">
-                          <div class="wrapper row">
-                              <div class="preview col-md-6 col-lg-8 col-xs-12">
+              <div className="container">
+                  <div className="card">
+                      <div className="container-fliud">
+                          <div className="wrapper row">
+                              <div className="preview col-md-6 col-lg-8 col-xs-12">
 
-                                  <div class="preview-pic tab-content">
-                                      <div class="tab-pane active" id="pic-1"><img src={this.state.juego.url}/></div>
+                                  <div className="preview-pic tab-content">
+                                      <div className="tab-pane active" id="pic-1"><img src={this.state.juego.url}/></div>
                                   </div>
 
                               </div>
-                              <div class="details col-md-6 col-lg-8 col-xs-12">
-                                  <div class="panel panel-default text-center">
-                                      <h3><div class="panel-title">   Juego</div></h3>
+                              <div className="details col-md-6 col-lg-8 col-xs-12">
+                                  <div className="panel panel-default text-center">
+                                      <h3><div className="panel-title">   Juego</div></h3>
                                       <hr/>
                                   <h4>{this.state.juego.title}</h4>
                                   </div>
-                                  <div class="panel panel-default text-center">
-                                  <div class="rating">
-                                      <h3><div class="panel-title">  Categoria</div></h3>
+                                  <div className="panel panel-default text-center">
+                                  <div className="rating">
+                                      <h3><div className="panel-title">  Categoria</div></h3>
                                       <hr/>
                                       <h4>{this.state.juego.type}</h4>
                                   </div>
                                   </div>
-                                  <div class="panel panel-default text-center">
-                                      <h3><div class="panel-title">  Precio</div></h3>
+                                  <div className="panel panel-default text-center">
+                                      <h3><div className="panel-title">  Precio</div></h3>
                                       <hr/>
                                       <h2><font color="green">{this.state.juego.price} €</font></h2>                 
                                   </div>
             
-                                  <div class="text-center">
-                                      <button class="btn btn-default" onClick={this.comprar}  type="button"><span class="glyphicon glyphicon-shopping-cart"></span>Añadir al carrito</button>
+                                  <div className="text-center">
+                                      <button className="btn btn-default" onClick={this.comprar}  type="button"><span className="glyphicon glyphicon-shopping-cart"></span>Añadir al carrito</button>
                                   </div>
                               </div>
                           </div>
@@ -130,18 +115,18 @@ class Juego extends React.Component {
 
               <div id="comentarios" className="container">
                 <div className="row">
-                  <div class="panel panel-default widget">
-                    <div class="panel-heading">
-                        <span class="glyphicon glyphicon-comment"></span>
-                        <h3 class="panel-title">
+                  <div className="panel panel-default widget">
+                    <div className="panel-heading">
+                        <span className="glyphicon glyphicon-comment"></span>
+                        <h3 className="panel-title">
                             Comentarios</h3><br/>
                             <div className="row">
                             <textarea className="form-control" onChange={(event) => this.setState({nuevoComentario: event.target.value})} placeholder="Escribe el contenido..."></textarea><br/>
                             <button className="btn btn-primary pull-right" onClick={this.comentar}>Enviar</button>
                             </div>
                     </div>
-                    <div class="panel-body">
-                        <ul class="list-group">
+                    <div className="panel-body">
+                        <ul className="list-group">
                           {prods}
                         </ul>
                     </div>
@@ -151,37 +136,37 @@ class Juego extends React.Component {
             </div>
       }else{
             return <div> 
-              <div class="container">
-                  <div class="card">
-                      <div class="container-fliud">
-                          <div class="wrapper row">
-                              <div class="preview col-md-6 col-lg-8 col-xs-12">
+              <div className="container">
+                  <div className="card">
+                      <div className="container-fliud">
+                          <div className="wrapper row">
+                              <div className="preview col-md-6 col-lg-8 col-xs-12">
 
-                                  <div class="preview-pic tab-content">
-                                      <div class="tab-pane active" id="pic-1"><img src={this.state.juego.url}/></div>
+                                  <div className="preview-pic tab-content">
+                                      <div className="tab-pane active" id="pic-1"><img src={this.state.juego.url}/></div>
                                   </div>
 
                               </div>
-                              <div class="details col-md-6 col-lg-8 col-xs-12">
-                                  <div class="panel panel-default text-center">
-                                      <h3><div class="panel-title">   Juego</div></h3>
+                              <div className="details col-md-6 col-lg-8 col-xs-12">
+                                  <div className="panel panel-default text-center">
+                                      <h3><div className="panel-title">   Juego</div></h3>
                                       <hr/>
                                   <h4>{this.state.juego.title}</h4>
                                   </div>
-                                  <div class="panel panel-default text-center">
-                                  <div class="rating">
-                                      <h3><div class="panel-title">  Categoria</div></h3>
+                                  <div className="panel panel-default text-center">
+                                  <div className="rating">
+                                      <h3><div className="panel-title">  Categoria</div></h3>
                                       <hr/>
                                       <h4>{this.state.juego.type}</h4>
                                   </div>
                                   </div>
-                                  <div class="panel panel-default text-center">
-                                      <h3><div class="panel-title">  Precio</div></h3>
+                                  <div className="panel panel-default text-center">
+                                      <h3><div className="panel-title">  Precio</div></h3>
                                       <hr/>
                                       <h2><font color="green">{this.state.juego.price} €</font></h2>                 
                                   </div>
             
-                                  <div class="text-center">
+                                  <div className="text-center">
                                       Necesitas estar logueado para comprar    
                                   </div>
                               </div>
@@ -220,23 +205,23 @@ class ComentarioItem extends React.Component {
       var idborrar = "#mi-modal"+this.props.comentario.comments_id
       //console.log(this.props.comentario)
       if(this.props.comentario.nick == reactLocalStorage.get('nick')){
-        return <li class="list-group-item">
-                <div class="row">
-                    <div class="col-xs-2 col-md-1">
-                        <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
-                    <div class="col-xs-10 col-md-11">
+        return <li className="list-group-item">
+                <div className="row">
+                    <div className="col-xs-2 col-md-1">
+                        <img src="http://placehold.it/80" className="img-circle img-responsive" alt="" /></div>
+                    <div className="col-xs-10 col-md-11">
                         <div>
                                 Por: {this.props.comentario.nick}
                         </div>
-                        <div class="comment-text">
+                        <div className="comment-text">
                             {this.props.comentario.message}
                         </div>
-                        <div class="action pull-right">
-                            <button  data-toggle="modal" data-target={id}type="button" class="btn btn-primary btn-xs" title="Editar">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                        <div className="action pull-right">
+                            <button  data-toggle="modal" data-target={id}type="button" className="btn btn-primary btn-xs" title="Editar">
+                                <span className="glyphicon glyphicon-pencil"></span>
                             </button>&nbsp;&nbsp;&nbsp;
-                            <button data-toggle="modal" data-target={idborrar} type="button" class="btn btn-danger btn-xs" title="Borrar">
-                                <span class="glyphicon glyphicon-trash"></span>
+                            <button data-toggle="modal" data-target={idborrar} type="button" className="btn btn-danger btn-xs" title="Borrar">
+                                <span className="glyphicon glyphicon-trash"></span>
                             </button>
                             <ModalEditar editado={this.refresh} comentario={this.props.comentario}/>
                             <ModalBorrar borrado={this.refresh} comentario={this.props.comentario}/>
@@ -246,18 +231,18 @@ class ComentarioItem extends React.Component {
             </li>
 
       }else{
-        return <li class="list-group-item">
-          <div class="row">
-              <div class="col-xs-2 col-md-1">
-                  <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
-              <div class="col-xs-10 col-md-11">
+        return <li className="list-group-item">
+          <div className="row">
+              <div className="col-xs-2 col-md-1">
+                  <img src="http://placehold.it/80" className="img-circle img-responsive" alt="" /></div>
+              <div className="col-xs-10 col-md-11">
                   <div>
                           Por: {this.props.comentario.nick}
                   </div>
-                  <div class="comment-text">
+                  <div className="comment-text">
                       {this.props.comentario.message}
                   </div>
-                  <div class="action">
+                  <div className="action">
                   </div>
               </div>
           </div>
@@ -280,20 +265,10 @@ class ModalEditar extends React.Component {
   editar(event){
     var token = reactLocalStorage.get('token')
     var json = JSON.stringify({newMessage:this.state.updateComentario})
-    
-    //console.log(json)
-    fetch('http://localhost:3000/games/'+this.props.comentario.game_id+'/comments/'+this.props.comentario.comments_id, {
-          method: 'PUT',
-          headers: {
-              'Content-type':'application/json',
-              'Authorization': token
-          },
-          body: json
-      })
+    new API().editarComentario(this.props.comentario.game_id,this.props.comentario.comments_id,json)
       .then((response) => {
           if(response.ok){
             this.props.editado()
-              //$('#myModal').modal('hide')
           }else{
               alert('Datos incorrectos')
           }     
@@ -335,23 +310,15 @@ class ModalBorrar extends React.Component {
   
     borrar(event){
       var token = reactLocalStorage.get('token')
-      
-      //console.log(json)
-      fetch('http://localhost:3000/games/'+this.props.comentario.game_id+'/comments/'+this.props.comentario.comments_id, {
-            method: 'DELETE',
-            headers: {
-                'Content-type':'application/json',
-                'Authorization': token
-            }
+    
+      new API().borrarComentario(this.props.comentario.game_id, this.props.comentario.comments_id)
+      .then((response) => {
+        if(response.ok){
+            this.props.borrado()
+        }else{
+            alert('Datos incorrectos')
+        }     
         })
-        .then((response) => {
-            if(response.ok){
-              this.props.borrado()
-                //$('#myModal').modal('hide')
-            }else{
-                alert('Datos incorrectos')
-            }     
-        }) 
     }
   
     render(){ 

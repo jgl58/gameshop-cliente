@@ -42,18 +42,84 @@ class API  {
                     return response.json()
             })
     }
-    addItem(item) {
-        return fetch(this.API_URL, {
-                   method: 'POST',
-                   headers: {
-                       'Content-type':'application/json'
-                   },
-                   body: JSON.stringify(item)
-               }).then(function (respuesta) {
-                   if (respuesta.ok)
-                      return respuesta.json()
-               })
+
+    crearComentario(idGame, json){
+        var token = reactLocalStorage.get('token')
+        return fetch('http://localhost:3000/games/'+idGame+'/comments', {
+            method: 'POST',
+            headers: {
+                'Content-type':'application/json',
+                'Authorization': token
+            },
+            body: json
+        })
     }
+    borrarComentario(idGame, idComment){
+        var token = reactLocalStorage.get('token')
+        return fetch('http://localhost:3000/games/'+idGame+'/comments/'+idComment, {
+            method: 'DELETE',
+            headers: {
+                'Content-type':'application/json',
+                'Authorization': token
+            }
+        })
+    }
+
+    editarComentario(idGame, idComment,json){
+    var token = reactLocalStorage.get('token')
+       return fetch('http://localhost:3000/games/'+idGame+'/comments/'+idComment, {
+            method: 'PUT',
+            headers: {
+                'Content-type':'application/json',
+                'Authorization': token
+            },
+            body: json
+        })
+    }
+
+    pagar(idGame){
+        var token = reactLocalStorage.get('token')
+        return fetch('http://localhost:3000/games/'+idGame+'/orders', {
+              method: 'POST',
+              headers: {
+                  'Content-type':'application/json',
+                  'Authorization': token
+              }
+          })
+    }
+
+    borrarPedido(idUser,idPed){
+        var token = reactLocalStorage.get('token')
+        //console.log(json)
+        return fetch('http://localhost:3000/users/'+idUser+'/orders/'+idPed, {
+              method: 'DELETE',
+              headers: {
+                  'Content-type':'application/json',
+                  'Authorization': token
+              }
+          })
+    }
+
+    login(json){
+        return fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-type':'application/json'
+            },
+            body: json
+        })
+    }
+
+    registro(json){
+        return fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: {
+                'Content-type':'application/json'
+            },
+            body: json
+        })
+    }
+
 }
 
 export default API

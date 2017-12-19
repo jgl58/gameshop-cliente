@@ -64,35 +64,23 @@ class CatalogoItem extends React.Component {
     acceder(event){
         this.props.handleAcceder(this.props.game.games_id)
     }
-/*<div className="item-img">
-                        <img width="275" height="250" src={this.props.game.url}/>
-                    </div>
-                    <div className="item-pnl">
-                        <div className="pnl-wrapper">
-                            <div className="pnl-description">
-                                <span className="pnl-label">{this.props.game.title}</span>
-                                <span className="pnl-price">{this.props.game.price} €</span>
-                                <button className="btn btn-primary pull-right" onClick={this.acceder}>Acceder</button>
-                            </div>
-                        </div>
-                    </div>*/
     render () {
         return <div className="col-sm-12 col-md-6 col-lg-4">
 
-            <div class="card">
-                <div class="card-image">
-                    <img class="img-responsive" src={this.props.game.url}/>
+            <div className="card">
+                <div className="card-image">
+                    <img className="img-responsive" src={this.props.game.url}/>
                     
                 </div>
-                <div class="card-content">
-                    <span class="card-title">{this.props.game.title}</span>                    
+                <div className="card-content">
+                    <span className="card-title">{this.props.game.title}</span>                    
                     
                 </div>
-                <div class="card-action">
+                <div className="card-action">
                     <button className="btn btn-primary pull-right" onClick={this.acceder}>Acceder</button>
                 </div>
-                <div class="card-reveal">
-                    <span class="card-title">{this.props.game.price} €</span> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <div className="card-reveal">
+                    <span className="card-title">{this.props.game.price} €</span> <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     
                 </div>
             </div>
